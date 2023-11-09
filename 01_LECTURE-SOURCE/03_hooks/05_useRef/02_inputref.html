@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* 사용자 입력 양식을 참조하는데도 useRef를 사용 가능. */
+
+        const { useState, useRef, useEffect } = React;
+
+        function LoginComponent() {
+
+            const [form, setForm] = useState({
+                username: '',
+                password: ''
+            });
+
+            const usernameRef = useRef();
+            console.log(usernameRef); //최초 생성 시 랜더링 이전 동작이므로 undefind 로 초기화
+
+            useEffect(
+                () => {
+                    console.log(usernameRef); //초기화면 랜더링 후 출력 확인
+                    usernameRef.current.focus(); //사용자 입력 양식 포커스 설정
+                },
+                [] //최초 마운트 시점에만 동작하도록 빈 배열 설정
+            );
+
+            const onChangeHandler = e => {
+                setForm({
+                    ...form,
+                    [e.targer.name]: e.targer.value
+                });
+            }
+
+            return (
+                <>
+                    <input
+                        type="text"
+                        name="username"
+                        value={form.username}
+                        onChange={onChangeHandler}
+                        ref={usernameRef} //참조할때 쓰는 용법?
+                    />
+                    <br />
+                    <input
+                        type="password"
+                        name="password"
+                        value={form.password}
+                        onChange={onChangeHandler}
+                    />
+                    <br />
+                    <button>로그인</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<LoginComponent />);
+    </script>
+
+</body>
+
+</html>

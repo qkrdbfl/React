@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_props-distructuring-assignment</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /*ES6에서 제공하는 구조분해할당 문법을 이용하여 props 객체 내부의 값을
+        바로 추출해서 사용할 수 있다.*/
+
+        /*1. 전달박은 props 인자를 구조분해할당 하는 방법*/
+        // function PropsPrinter(props){        //props은 변수명임
+
+        //     const {name, children} = props;
+
+        //     return(
+        //         <>
+        //         <h1>제 이름은 {name} 입니다.</h1>
+        //         <h3>제가 가지고 있는 children은 {children} 입니다.</h3>
+        //         </>
+        //     );
+        // }
+
+        /*2. 전달 받는 인자를 구조분해할당 방식으로 선언하는 방법*/
+        function PropsPrinter({name, children}){
+
+            return(
+                <>
+                <h1>제 이름은 {name} 입니다.</h1>
+                <h3>제가 가지고 있는 children은 {children} 입니다.</h3>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <PropsPrinter name="홍길동">텍스트노드</PropsPrinter>
+        );
+    </script>
+
+</body>
+
+</html>

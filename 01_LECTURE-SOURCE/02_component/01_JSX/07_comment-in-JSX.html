@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>07_</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        //한줄 주석
+        /*여러줄 주석*/
+
+        const element = (
+            <>
+                <h1>comment in JSX</h1>
+                {/*JSX 내의 주석은 이렇게 작성함*/}
+                <h3
+                    id="text"       //시작 태그를 여러줄로 작성한다면 역에도 주석 작성 가능함
+                    className="text"
+                >
+                    JSX 내의 주석 사용하는 방법
+                </h3>
+            // 이런 주석이나
+            /*이런 주석은 페이지에 그대로 나타남*/
+            </>
+        )
+
+        ReactDOM.createRoot(document.getElementById('root')).render(element);
+    </script>
+
+</body>
+
+</html>

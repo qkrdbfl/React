@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_useState</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* 함수형 컴포넌트는 기본적으로 state를 사용할 수 없다. 
+        하지만 이랙트 16.8 버전 이후 useState라는 함수를 이용해서 함수형 컴포넌트에서도
+        state를 사용할 수 있게 됐다. (useState는 hooks의 한 종류다.)*/
+
+        // console.log(React);
+        // console.log(React.useState);
+
+        /* useState는 React 객체 내부에 존재하는 함수형 속성이다. 
+        구조분해할당을 이용해서 미리 전역 변수로 선언해두고 나면
+        React.useState() 대신 useState()로 사용 가능하다. */
+        const { useState } = React;
+
+        function Say() {
+
+            console.log(useState('기본값')); //콘솔로 확인 해보니 반환값이 배열임. 
+            /* message라는 state와 해당 state를 수정할 setter 메소드를 배열 구조분해할당으로 할당함. 
+            useState에 전달한 값은 message 변수에 초기값으로 초기화 되며, 전달하지 않으면 undefind로 초기화 됨. */
+            const [message, setMessage] = useState('기본값'); // 초기값('기본값')은 message에 담기고 메세지 변경부분은 setMessage에 담김 
+
+            /* 여러개의 상태들을 한 컴포넌트 내에서 사용할수 있다.*/
+            const [color, setColor] = useState('black'); // 초기값은 black
+            const [backgroundColor, setBackgroundColor] = useState('white'); //초기값은 white
+
+            const onClickEnter = () => setMessage('안녕하세요!');  //함수 정의
+            const onClickLeave = () => setMessage('안녕히가세요!'); //함수 정의
+
+            return (
+                <>
+                    {/* <h1>{message}</h1> /* div 함수부분* */}
+                    <h1 style={{ color, backgroundColor }}>{message}</h1> {/*이렇게도 쓸수 있음(위에 따로 정의 해주지 않고 버튼에 바로 정의함) 밑의 div 색깔부분*/}
+                    <div>
+                        <button onClick={onClickEnter}>입장</button> {/*따로 함수를 정의해서 써본것임*/}
+                        <button onClick={onClickLeave}>퇴장</button> {/*따로 함수를 정의해서 써본것임*/}
+                    </div>
+                    <div>
+                        <button onClick={() => setColor('red')}>빨간색</button>
+                        <button onClick={() => setColor('purple')}>보라색</button>
+                        <button onClick={() => setColor('green')}>초록색</button>
+                    </div>
+                    <div>
+                        <button onClick={() => setBackgroundColor('white')}>기본배경</button>
+                        <button onClick={() => setBackgroundColor('black')}>반전배경</button>
+                    </div>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Say />);
+    </script>
+
+</body>
+
+</html>

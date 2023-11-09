@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useState, useEffect } = React;
+
+        function Timer() {
+
+            useEffect(
+                () => {
+                    console.log('타이머가 시작합니다...');
+                    const timer = setInterval( //setInterval(); 만 썼을땐 토글을 누르면 누르는대로 타이머 시작이 누적돼서 계속 돌아갔음.
+                        () => {
+                            console.log(new Date().toLocaleTimeString())
+                        }, 1000 //1초에 한번씩 시간 출력
+                    );
+
+                    /* 컴포넌트 언마운트 시 setInterval 종료하는 함수 반환 */
+                    return () => {                                        //
+                        clearInterval(timer);                             //
+                        console.log('타이머가 종료됩니다...');            //
+                    } ////////////////////////////////////////////////////
+                },
+                []
+            );
+
+            return (
+                <h1>타이머를 시작합니다.</h1>
+            );
+        }
+
+        function App() {
+
+            const [isTrue, setIsTrue] = useState(false);
+
+            return (
+                <>
+                    <button onClick={() => setIsTrue(!isTrue)}>타이머 토글</button>
+                    {isTrue && <Timer />} {/*isTrue 가 true 일때만 랜더링함*/}
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

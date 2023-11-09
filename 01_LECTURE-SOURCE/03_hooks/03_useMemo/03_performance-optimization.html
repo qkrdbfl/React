@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* 간단한 연산 시 복잡한 연산을 함께 수행하는 것은 비효율적이므로
+        연산을 총해 나온 값을 메모리 상에 저장해 두고, 해당 값이 변경 되지 않을 때는
+        다시 연산하지 않도록 한다. 연산으로 얻은 값 자체를 메모라이즈 하기 위해
+        사용되는 hook이 useMemo이다.*/
+
+        const { useState, useMemo } = React;
+
+        const hardCalculator = (number) => {
+            console.log('어려운 계산');
+            for (let i = 0; i < 9999999; i++) {
+                //blank (시간과 비용이 드는 계산이란 의미임.)
+            }
+            return number + 10000; //내가 전달한 값 + 10000
+        }
+
+        const easyCalculator = (number) => {
+            console.log('쉬운 계산');
+            return number + 1;
+        }
+
+        function App() {
+
+            const [hardNumber, setHardNumber] = useState(1); //초기값으로 1
+            const [easyNumber, setEasyNumber] = useState(1);
+
+            //1. 첫번째 인자는 연산을 수행한 후 반환 받는 값을 리턴 값 형태로 작성한다.
+            //2. 두번쨰 인자는 의존성 배열이라고 하는데, 의존성 배열에 등록한 값의 변화를 감지한다.
+            //만약, 빈 배열을 사용하면 아무것도 감지하지 않기 때문에 첫 로딩 시에만 호출하여
+            // 값을 메모라이즈 한다. (최적화 useMemo)
+            const hardNum = useMemo(
+                () => { //변화할때만 {}안에 구문이 작동함
+                    return hardCalculator(hardNumber);
+                }, [hardNumber]//hardNumber값이 변하는지 감지 한다는 의미. 바뀌면 위 구문을 다시 실행.
+            ); 
+
+            const easyNum = useMemo(
+                () => { //변화할때만 {}안에 구문이 작동함
+                    return easyCalculator(easyNumber);
+                }, [easyNumber]//easyNumber값이 변하는지 감지 한다는 의미. 바뀌면 위 구문을 다시 실행.
+            ); 
+
+            return (
+                <>
+                    <h3>어려운 계산기</h3>
+                    <input
+                        type="number"
+                        value={hardNumber}
+                        onChange={e => setHardNumber(parseInt(e.target.value))}
+                    />
+                    <span>hardNum : {hardNum}</span>
+                    <h3>쉬운 계산기</h3>
+                    <input
+                        type="number"
+                        value={easyNumber}
+                        onChange={e => setEasyNumber(parseInt(e.target.value))}
+                    />
+                    <span>easyNum : {easyNum}</span>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

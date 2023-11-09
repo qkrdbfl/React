@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_children-props</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        function ChildrenNodePrinter(props){
+
+            console.log(props);
+
+            return(
+                <>
+                <h1>자식 포드가 가지고 있는 값은?</h1>
+                <h3>
+                    children : <font style={{color : 'orangered'}}>{props.children}</font>
+                </h3>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            [
+                <ChildrenNodePrinter name="홍길동" phone="010-1234-5678">텍스트노드</ChildrenNodePrinter>,
+                <ChildrenNodePrinter><div>자식노드</div></ChildrenNodePrinter>,
+                <ChildrenNodePrinter><div>1</div><div>2</div><div>3</div></ChildrenNodePrinter>
+            ]
+        );
+    </script>
+
+</body>
+
+</html>

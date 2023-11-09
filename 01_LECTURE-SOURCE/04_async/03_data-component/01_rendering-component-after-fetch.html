@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <style>
+        .item {
+            background-color: aquamarine;
+            border: 1px dotted black;
+            width: 350px;
+            display: inline-block;
+            margin: 10px;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useEffect, useState } = React;
+
+        function Title() {
+            return <h1>회원 목록</h1>;
+        }
+
+        function Item({ user }) {
+
+            return (
+                <div className="item">
+                    <h4>{user.name} ({user.username})</h4>
+                    <p>
+                        userId : {user.id} <br />
+                        email : {user.email} <br />
+                        phone : {user.phone} <br />
+                        company name : {user.company.name}
+                    </p>
+                </div>
+            );
+        }
+
+        function ItemList() {
+
+            /* 페이지를 로드 하자마자 데이터를 보여줘야 하는 상황이라면
+            useEffect()에서 호출하고 두번째 인자로는 빈 배열을 전달한다. 
+            (componentDidMount 와 같은 타이밍)
+            그러면 최초 렌더링 시 데이터를 로드할 수 있다. 
+            (어떠한 동작에 의해 데이터를 보여주고 싶다면 이벤트 핸들러에서 요청한다.)*/
+
+            /* state를 어떤 컴포넌트에서 관리해야 하는지에 대해 고려해서 선언한다. 
+            APP에서 관리할 경우 props로 전달할 수 있기는 하지만 수정이 생길 경우
+            APP 단위로 리렌더링 되므로 비효율적이다. */
+            const [users, setUsers] = useState();
+
+            useEffect(
+                () => {
+                    fetch('https://jsonplaceholder.typicode.com/users')
+                        .then(response => response.json())
+                        .then(reponseUser => setUsers(reponseUser))
+                },
+                []
+            )
+
+            /* 최초 reder 시에는 users가 undefind이므로 map 메소드 호출 시 오류가 발생한다. 
+            조건부 랜더링을 통해 users가 존재할 경우 랜더링하도록 변경하면
+            api 호출을 통해 users 데이터가 존재하게 되었을 경우 랜더링이 처리 된다. */
+            return (
+                <div>
+                    {users && users.map(user => <Item key={user.id} user={user} />)}
+                </div>
+            );
+        }
+
+        function App() {
+
+            return (
+                <>
+                    <Title />
+                    <ItemList />
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

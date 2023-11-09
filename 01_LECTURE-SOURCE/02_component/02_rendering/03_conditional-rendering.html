@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /*조건부 렌더링
+        : 여러개의 엘리먼트 중 특정 조건에 따라 하나의 엘리먼트만 렌더링 할 수 있다*/
+        const answer = parseInt(prompt('리액트가 재미 있나요?\n1.재밌다.\n2.어렵다.'));
+
+        /*랜더링 시 조건 비교 후 조건부 랜더링*/
+        const positiveElement = <h1>앞으로 점점 더 재밌어 질거에요..^-^</h1>;
+        const negativeElement = <h1>천천히 앞의 내용을 복습해보세요..^-^</h1>;
+
+        /*1. 랜더링 시 조건 비교 후 조건부 랜더링*/
+        // ReactDOM.createRoot(document.getElementById('root')).render(
+        //     (answer ===1) ? positiveElement : negativeElement //조건 넣기
+        // );
+
+        /*2. JSX 내에서 조건부로 엘리먼트 생성*/
+        /*2-1. if문*/
+        // let element;
+        // if(answer === 1){
+        //     element = <h1>앞으로 점점 더 재밌어 질거에요..^-^</h1>;
+        // }else{
+        //     element = <h1>천천히 앞의 내용을 복습해보세요..^-^</h1>;
+        // }
+
+        /*2-2. 삼항연산자*/
+        // const element = (answer === 1) ? (
+        //     <h1>앞으로 점점 더 재밌어 질거에요..^-^</h1>
+        // ) : (
+        //     <h1>천천히 앞의 내용을 복습해보세요..^-^</h1>
+        // );
+
+        /*2-3. &&연산자를 이용한 조건부 엘리먼트 생성
+        특정 조건을 만족하는 경우에만 랜더링을 하고, 그렇지 않은 경우에는 아무것도 보이지 않게 하고 싶은 경우일 때 사용한다*/
+        // const element = answer === 1 && <h1>앞으로 점점 더 재밌어 질거에요..^-^</h1>; //어렵다인 2번을 누르면 1번이 아니기에 아무런 내용도 보이지 않는다.
+
+        /*주의사항
+        : false 조건을 가지고 랜더링을 하는 경우 조건에 일치하지 않으면 랜더링 되는 요소가 없지만
+        0과 같이 falsy한 값을 이용해 조건부 엘리먼트 생성을 하면 0이 반환된다.*/
+        const number = 0;
+        const element = number && <h1>0이 아닙니다</h1>;
+
+        ReactDOM.createRoot(document.getElementById('root')).render(element);
+    </script>
+
+</body>
+
+</html>

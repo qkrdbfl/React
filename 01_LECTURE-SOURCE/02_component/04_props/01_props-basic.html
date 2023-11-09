@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /*props
+        : properties의 약어로, 컴포넌트의 속성을 설정할 때 사용하는 요소이다.
+        porps 값은 해당 컴포넌트를 사용하는 부모 컴포넌트에서 설정할수 있다. 
+        proprs는 읽기 전용이기 떄문에 수정해서는 안된다. */
+
+        function Title(props) {
+            return <h1>안녕하세요 {props.name}님, 환영합니다.</h1>;
+        }
+
+        /*props.name이 존재하지 않을 경우의 기본값 설정*/
+        Title.defaultProps = {
+            name: '아무개'
+        }
+
+        const name1 = "홍길동";
+        const name2 = "유관순";
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            [
+                <Title name={name1} />,
+                <Title name={name2} />,
+                <Title name="신사임당" />,
+                <Title />
+            ]
+        );
+    </script>
+
+</body>
+
+</html>

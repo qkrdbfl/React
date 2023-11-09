@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_iteration-sample</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /*리스트형 컴포넌트 사용 예시*/
+
+        const { useState } = React;
+
+        function App() {
+
+            const [names, setNames] = useState([ //초기값 배열로 지정함. key값으로 id를 씀.
+                { id : 1, name: '홍길동' },
+                { id : 2, name: '유관순' },
+                { id : 3, name: '이순신' }
+            ]);
+
+            const [inputText, setInputText] = useState('');
+            const [nextId, setNextId] = useState(4);
+
+            const onChangeHandler = e => setInputText(e.target.value);
+
+            const onClickHandler = () => {
+                                         //concat = 배열을 병합함!!!
+                const changedNames = names.concat({ //names에 변화한 id : nextId, name : inputText 를 넣는다.
+                    id: nextId,
+                    name: inputText
+                });
+
+                setNames(changedNames);
+                setNextId(nextId + 1);
+                setInputText(''); //사용자 입력값은 비어있게
+            }
+
+            const onRemove = id => {
+                const changedNames = names.filter(item => item.id !== id);
+                setNames(changedNames);
+            };
+
+            const nameList = names.map(item =>
+                <li key={item.id} onDoubleClick={() => onRemove(item.id)}>
+                    {item.name}
+                </li>);
+
+            return (
+                <>
+                    <input type="text" value={inputText} onChange={onChangeHandler} />
+                    <button onClick={onClickHandler}>추가</button>
+                    <ul>{nameList}</ul>
+                </>
+            )
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App/>);
+    </script>
+
+</body>
+
+</html>

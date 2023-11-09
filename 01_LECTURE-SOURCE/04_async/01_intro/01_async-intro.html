@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+<script>
+    /* 동기 작업과 비동기 작업
+    동기작업 : 하나의 작업을 실행하고 마친 뒤에 다음 작업을 순차적으로 실행함. 
+    비동기 작업 : 메인 흐름은 멈추지 않는 상태에서 특정 작업들을 백그라운드에서 처리하여
+    동시에 처리하는 것처럼 실행함.  
+    
+    비동기 작업을 할 떄 가장 많이 사용하는 방식이 콜백 함수를 이용하는 방식이다. */
+
+    function sayHello() {
+        console.log('Hello world!');
+    }
+
+    /* 아래 코드는 동기적으로 실행되기 떄문에 sayHello 함수의 동작이 끝난 뒤 end가 출력됨. */
+    // sayHello();
+    // console.log('end!');
+
+    /* 아래 코드는 비동기적으로 실행되기 떄문에 setTimeout으로 Hello World출력을 예약하고
+    메인 흐름은 이어서 실행되기 떄문에 end가 먼저 출력된 뒤 3초 뒤 Hello World가 출력됨. */
+    setTimeout(sayHello,3000); //비동기 작업 콜백함수
+    console.log('end!!'); 
+
+
+</script>
+
+</body>
+
+</html>

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>03_after-set-state</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* setState 이후 특정 작업 실행하기*/
+
+        class Light extends React.Component { //클래스 생성
+
+            state = {
+                isOn: false //isOn이라는 속성을 펄스로 블리언 타입으로 씀
+            };
+
+            render() {
+
+                const { isOn } = this.state;
+
+                const style = {
+                    width: 200,
+                    height: 200,
+                    backgroundColor: isOn ? 'green' : 'red', //트루일떈 그린,펄스일떈 레드
+                    transition: '2s' //천천히 변화하도록 트랜지션 주기
+                }
+
+                return (
+                    <>
+                        <div style={style}></div>   {/*버튼을 눌러서 색이 바뀌게 해보자.*/}
+
+                        <button onClick={
+                            /* setState 동작 이후 실핼할 콜백 함수를 setState 함수의 두 번째 인자로 전달할 수 있다.*/
+                            () => this.setState(
+                                { isOn: !isOn },
+                                () => console.log(isOn ? '불이 켜졌습니다' : '불이 꺼졌습니다'))
+                        }>
+                            {isOn ? 'OFF' : 'ON'}
+                        </button>
+                    </>
+                );
+            }
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Light />);
+    </script>
+
+</body>
+
+</html>

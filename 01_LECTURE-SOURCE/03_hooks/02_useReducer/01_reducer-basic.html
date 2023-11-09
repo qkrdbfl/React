@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>01_ reducer-basic</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* 유즈리듀서(useReducer)는 다양한 컴포넌트의 state를 업데이트 할 때 사용하는 Hooks으로
+        사용 시 장점은 컴포넌트 업데이트 로직을 컴포넌트 밖으로 분리할 수 잇다는 것이다. */
+
+        const { useReducer } = React;
+
+        /*  리듀서(reducer) 함수는 첫번째 인자는 기본 상태 값,
+        두번쨰 인자는 업데이트를 위해 필요한 정보를 담은 객채를 전달 받는다. */
+        function reducer(state, action) { // + 할건지 - 건지 등 방식을 action에 전달.
+
+            /* zction에 전달 된 타입에 따라 새로운 state를 갱신할 객체를 생성해서 리턴한다. 
+            기존의 state를 변경하는 것이 아니라 새롭게 생성 된 객체를 사용해야 한다. */
+            switch (action.type) {
+                case 'INCREMENT': //증가 동작
+                    return { value: state.value + 1 }; //값을 담아 새로운 객체를 반환한다(value)
+                case 'DECREMENT': //감소 동작
+                    return { value: state.value - 1 }; //값을 담아 새로운 객체를 반환한다(value)
+                default: //아무타입도 해당하지 않을 경우 
+                    return state;                      //기존 state 반환한다.
+            }
+        }
+
+        function Counter() { //전에 배운 useState, setState를 dispatcher가 해준다고 생각하면 된다.
+
+            /* useReducerdml 첫번째 인자는 업데이트 로직을 작성한 리듀서 함수이고,
+            두번쨰 인자는 state로 사용할 기본 값을 전달한다. 
+            state는 현재 상태이고, dispatcher는 state를 변경하고자 할때 호출할 함수다. */
+            const [state, dispatcher] = useReducer(reducer, { value: 0 }); //인자 두개를 넘기는데 업데이트 로직을 첫번쨰 인자에 넘어감(reducer) 두번쨰는 0이 초기값으로 넘어감(state)
+
+            /* state를 변경하고자 할때는 dispatcher 함수에 action 객체를 전달하면서 호출한다. */
+            return (
+                <>
+                    <h1>count : {state.value}</h1> {/*초기값 0이 나오도록.*/}
+                    <button onClick={() => dispatcher({ type: 'DECREMENT' })}>-1</button>
+                    <button onClick={() => dispatcher({ type: 'INCREMENT' })}>+1</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter />);
+    </script>
+
+</body>
+
+</html>

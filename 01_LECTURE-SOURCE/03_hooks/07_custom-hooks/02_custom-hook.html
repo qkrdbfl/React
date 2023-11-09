@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>problem 고친 버전</title>
+    <script crossorigin src='https://unpkg.com/react@18/umd/react.development.js'></script>
+    <script crossorigin src='https://unpkg.com/react-dom@18/umd/react-dom.development.js'></script>
+    <script src='https://unpkg.com/@babel/standalone/babel.min.js'></script>
+</head>
+
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        /* 여러 컴포넌트에서 비슷한 기능을 공유할 경우, 
+        사용자 정의 custom hook을 작성하여 로직을 재사용 할 수 있다. 
+        */
+
+        const { useState } = React;
+
+        function useInput() {
+
+            const [value, setValue] = useState('');
+            const onChange = e => setValue(e.target.value);
+
+            return { value, onChange };
+        }
+
+        function App() {
+
+            const usename = useInput();
+            const password = useInput();
+            const email = useInput();
+
+            console.log(usename);
+            console.log(password);
+            console.log(email);
+
+            return (
+                <div>
+                    <label>이름 : </label>
+                    <input type="text" id="username" value={usename.value} onChange={usename.onChange}/>
+                    <br />
+                    <label>비밀번호 : </label>
+                    <input type="password" id="password" {...password}/> {/*위 구문을 스프레드 문법으로 쓸수 있음*/}
+                    <br />
+                    <label>이메일 : </label>
+                    <input type="email" id="email" {...email}/> 
+                    <br />
+                    <h4>usename : { usename.value}</h4>
+                    <h4>password : { password.value}</h4>
+                    <h4>email : {email.value }</h4>
+                </div>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

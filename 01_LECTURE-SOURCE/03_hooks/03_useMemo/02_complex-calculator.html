@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useState } = React;
+
+        const hardCalculator = (number) => {
+            console.log('어려운 계산');
+            for (let i = 0; i < 9999999; i++) {
+                //blank (시간과 비용이 드는 계산이란 의미임.)
+            }
+            return number + 10000; //내가 전달한 값 + 10000
+        }
+
+        const easyCalculator = (number) => {
+            console.log('쉬운 계산');
+            return number + 1;
+        }
+
+        function App() {
+
+            const [hardNumber, setHardNumber] = useState(1); //초기값으로 1
+            const[easyNumber, setEasyNumber] = useState(1);
+
+            /* 시간이 얼마 걸리지 않는 연산을 수행해서 state가 변경 되었을 떄도
+            다시 화면을 랜더링하기 위해 App 함수의 내용이 호출 되기 떄문에
+             hardCalculator와 easyCalculator 함수가 모두 동작한다. (문제사항)*/
+            const hardNum = hardCalculator(hardNumber);
+            const easyNum = easyCalculator(easyNumber); //둘중 하나만 눌러도 같이 랜더링됨;
+
+            return (
+                <>
+                    <h3>어려운 계산기</h3>
+                    <input
+                        type="number"
+                        value={hardNumber}
+                        onChange={e => setHardNumber(parseInt(e.target.value))}
+                    />
+                    <span>hardNum : {hardNum}</span>
+                    <h3>쉬운 계산기</h3>
+                    <input
+                        type="number"
+                        value={easyNumber}
+                        onChange={e => setEasyNumber(parseInt(e.target.value))}
+                    />
+                    <span>easyNum : {easyNum}</span>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

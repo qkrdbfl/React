@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>04_attributeName</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /*JSX는 HTML처럼 보이지만 실제로는 자바스크립트다
+        React.createElement를 호출하는 코드로 컴파일 된다.
+        따라서 자바스크립트의 예약어와 동일한 이름의 attribute는 다른 이름을 우회적으로 사용하도록 정의 되어있다*/
+
+        /*1. 문자열로 속성값 정의*/
+        // const element = <h1 id="title" className="highlight">Hello World</h1>
+
+        /*2. 자바스크립트 표현식 사용 (변수로 표기법)*/
+        const id="title";
+        const className="highlight";
+
+        const element = <h1 id={id} className={className}>Hello World</h1>
+    
+
+        ReactDOM.createRoot(document.getElementById('root')).render(element);
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useState, useEffect, useMemo } = React;
+
+        function App() {
+
+            const [number, setNumber] = useState(0);
+            const [isKorea, setIsKorea] = useState(true); //토글을 누르면 이 값이 변화하도록
+
+            /* (1). 원시 자료형*/
+            // const location = isKorea ? '한국' : '외국';
+
+            /* (2). 객체 (형태로 바꿈)*/
+            // 객체의 경우 App이 호출 될 때마다 지역 변수가 초기화 되면서 매번 새로운 갹체를 만들기 때문에
+            // 속성 값은 변경이 없도라도 매번 새로운 객체가 만들어지게 된다.
+            // 이 때 useEffect의 의존성 배열에 추가 된 location은 매번 다른 값으로 인지하기 때문에
+            // number를 변경하더라도 useEffect가 매번 호출 되는 현상이 발생한다.
+            // const location = {
+            //     country: isKorea ? '한국' : '외국'
+            // };
+
+            /* (3). useMemo를 활용하여 문제 해결 예시*/
+            const location = useMemo(
+                () => ({ country: isKorea ? '한국' : '외국' }),
+                [isKorea]
+            );
+
+            /* location 값에 의존하는 useEffect */
+            useEffect(
+                () => {
+                    console.log('useEffect 호출 됨...');
+                },
+                [location]
+            )
+
+            return (
+                <>
+                    <h1>좋아하는 숫자를 입력해주세요</h1>
+                    <input
+                        type="number"
+                        value={number}
+                        onChange={e => setNumber(e.target.value)}
+                    />
+                    <hr />
+                    <h1>지금 당신이 있는 국가는?</h1>
+                    {/* <p>국가 : {location}</p> */}
+                    <p>국가 : {location.country}</p>
+                    <button onClick={() => setIsKorea(!isKorea)}>국가 토글하기</button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

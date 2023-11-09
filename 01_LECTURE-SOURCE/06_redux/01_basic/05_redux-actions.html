@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_react-redux</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://unpkg.com/redux@4.2.0/dist/redux.js"></script>
+    <script src="https://unpkg.com/react-redux@8.1.3/dist/react-redux.js"></script>
+    <script src="https://unpkg.com/redux-actions@2.6.5/dist/redux-actions.js"></script> <!--추가 (버전 수정 @2.6.5)-->
+</head>
+
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { createStore } = Redux;
+        const { Provider, useSelector, useDispatch } = ReactRedux;
+
+        /* 액션에 해당하는 내용을 매번 함수로 정의하기 번거롭다.
+        redux-actions 모듈에서 제공하는 createACtion / createActions 기능을 이용하면 보다 쉽게
+        액션 함수를 정의할 수 있다. 
+        handleActions 기능을 이용하면 리듀서 함수를 정의할 수 있다. */
+        const { createAction, createActions, handleActions } = ReduxActions;
+
+        /* 초기값 */
+        const initalState = 0;
+
+        /* 액션 */
+
+        /* 액션 타입을 상수로 정의함. 접두사는 다른 모듈과 액션 값이 겹쳐지지 않게 하기 위함이다. */
+        const INCREMENT = 'count/INCREASE';
+        const DECREMENT = 'count/DECREASE';
+
+        /* 1. createAction 함수 사용 
+        첫 번째 인자로 전달 되는 문자열은 action type의 속성이 된다. 
+        두 번째 인자로 전달 되는 콜백 함수의 return 값은 payload가 된다. 
+        콜백 함수의 매개변수는 dispatch 호출 시 전달 되는 값을 전달하며 이를 통해 payload에 
+        담는 값을 설정한다. */
+        // const increase = createAction(INCREMENT, (amount = 1) => ({incrementValue : amount}));
+        // const decrease = createAction(DECREMENT, (amount = 1) => ({decrementValue : amount}));
+
+        /* 2. createActions 함수 사용 (위 주석 구문 합쳐서 써보기)
+        여러개의 액션 함수를 한번에 생성할 수 있다. 
+        접두사가 있으므로 대괄호를 이용해서 키 식별자를 작성한다. 
+        전달하는 객체의 jey 값이 action의 type 속성이 되고, value 값의 함수 반환 값이 payload가 된다. 
+        action type 속성 값에 따라 반환 되는 객체의 키 값이 된다. ex) actions.count.increse */
+        const { count: { increase, decrease } } = createActions({
+            [INCREMENT]: (amount = 1) => ({ incrementValue: amount }),
+            [DECREMENT]: (amount = 1) => ({ decrementValue: amount })
+        });
+
+        /*리듀서 */                 /* 상태 값을 변경할 때 사용할 로직을 리듀서 함수에 정의한다. */
+        /* 3. handleActions 사용 
+        첫번째 인자는 객페로 key에는 type value에는 함수를 전달한다. 
+        해당 함수의 인자로 state, action이 전달되고 반환 값이 변경 될 state 값이다. 
+        두번째 인자는 초기 값을 전달한다. */
+        const reducer = handleActions({
+            [INCREMENT]: (state, {payload : {incrementValue}}) => { //payload라는 속성에서 incrementValue를 꺼낸다. (action임)
+                return state + incrementValue;
+            }, 
+            [DECREMENT]: (state, {payload : {decrementValue}}) => { //(state, action)
+                return state - decrementValue;
+             }
+        }, initalState);
+
+
+        /*===========================================================================*/
+
+        function App() {
+
+            /* useSelector hook을 통해 Store의 state를 사용할 수 있다. 
+            반드시 인자로 state를 매개변수로 하는 함수를 콜백으로 전달한다. */
+            const count = useSelector(state => state);
+
+            /* useDispatch hook를 통해 dispatch 함수를 반환 받는다. */
+            const dispatch = useDispatch();
+
+            const increaseCount = () => {
+                /* 사전에 정의한 액션 함수를 호출하여 반환 받은 액션 객체를 dispatch로 전달한다. 
+               호출 시 직접 action 객체를 리터럴로 작성하는 것 보다 가독성, 재사용성이 증가한다. */
+                dispatch(increase(/*5*/));//increase라고 하는 액션을 진행하는 것
+            }
+
+            const decreaseCount = () => {
+                dispatch(decrease(/*5*/)); //정해준 값만큼도 수행 가능 (5씩 증가 감소)
+            }
+
+            return (
+                <>
+                    <h1>Count : {count}</h1>
+                    <button onClick={increaseCount}>1 증가</button>
+                    <button onClick={decreaseCount}>1 감소</button>
+                </>
+            );
+        }
+
+        /* 리듀서 함수를 전달하며 상태 값을 관리할 스토어를 생성한다. */
+        /*스토어*/
+        const store = createStore(reducer);
+
+        /* Provider 컴포넌트로 store를 props로 전달하면 하위 컴포넌트는 store를 자동으로 구독하게 된다. 
+        즉, state가 변경 되면 랜더링이 다시 일어난다는 의미이다. */
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <Provider store={store}>
+                <App />
+            </Provider>
+        );
+    </script>
+</body>
+
+</html>

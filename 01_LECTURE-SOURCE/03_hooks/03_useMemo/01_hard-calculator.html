@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useState } = React;
+
+        const hardCalculator = (number) => {
+            console.log('어려운 계산');
+            for (let i = 0; i < 9999999; i++) {
+                //blank (시간과 비용이 드는 계산이란 의미임.)
+            }
+            return number + 10000; //내가 전달한 값 + 10000
+        }
+
+        function App() {
+
+            const [hardNumber, setHardNumber] = useState(1); //초기값으로 1
+
+            /* state 가 업데이트 될 때마다 무거운 연산을 다시 수행하여 랜더링을 다시 하게 됨. */
+            const hardNum = hardCalculator(hardNumber);
+
+            return (
+                <>
+                    <h3>어려운 계산기</h3>
+                    <input
+                        type="number"
+                        value={hardNumber}
+                        onChange={e => setHardNumber(parseInt(e.target.value))}
+                    />
+                    <span>hardNum : {hardNum}</span>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

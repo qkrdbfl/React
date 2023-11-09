@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_history-of-component</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script>
+        /* 2013년 리액트가 처음 등작했을 때 컴포넌트를 유일하게 만드는 방법은 createClass 함수를 
+        사용하는 것이었다. 리액트 16(2017년 9월)부터 공식적으로 금지 되었다. */
+        // const HelloWorldText = React.createClass({
+        //     displayName : 'helloworld',
+        //     render() {
+        //         return React.createElement(
+        //             'h1',
+        //             { className : 'greeting'},
+        //             'Hello World!'
+        //         );
+        //     }
+        // });
+
+        /* ES2015(ES6)에 클래스 문법이 도입 되면서 리액트에서도 리액트 컴포넌트를 클래스로 만드는 방법이 
+        도입되었다. */
+        // class HelloWorld extends React.Component {
+        //     render() {
+        //         return React.createElement(
+        //             'h1',
+        //             { className : 'greeting'},
+        //             'Hello World!'
+        //         );
+        //     }
+        // }
+
+        /* 현재도 Class형 컴포넌트를 만들 수 있지만 리액트 16버전부터는 함수 기반의 컴포넌트를 
+        생성하는 방법이 추가되면서 현재는 주를 이루고 있다. */
+        function HelloWorld() {
+            return React.createElement(
+                    'h1',
+                    { className : 'greeting'},
+                    'Hello World!'
+                );
+        }
+
+        /* root DOM에 rendering 요청 */
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            React.createElement(HelloWorld)
+        );
+
+    </script>
+    
+</body>
+</html>

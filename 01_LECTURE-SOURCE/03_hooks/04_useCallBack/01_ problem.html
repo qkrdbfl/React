@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        const { useState, useEffect } = React;
+
+        function App() {
+
+            const [number, setNumber] = useState(0);
+            const [toggle, setToggle] = useState(false);
+
+            const printNumber = () => console.log(`current number : ${number}`);
+
+            /* printNumber가 변경 될 때만 호출 되도록 하는 의도로 작성했지만,
+            함수는 객체고 App을 재호출 할 때마다 초기화가 되기 때문에 toggle 변경 시에도
+            printNumber가 불필요하게 초기화가 다시 일어난다. */
+            useEffect(
+                () => {
+                    console.log('printNumber 함수가 변경 되었습니다.');
+                },
+                [printNumber]
+            );
+
+            return (
+                <>
+                    <input
+                        type="number"
+                        value={number}
+                        onChange={e => setNumber(e.target.value)}
+                    />
+                    <button
+                        onClick={() => setToggle(!toggle)}
+                    >
+                        {toggle.toString()}
+                    </button>
+                    <button
+                    onClick={printNumber}
+                    >
+                        printNumberState
+                    </button>
+                </>
+            );
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+    </script>
+
+</body>
+
+</html>

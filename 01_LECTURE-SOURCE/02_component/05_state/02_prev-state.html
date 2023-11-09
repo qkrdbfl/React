@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_prev-state (01_번 카피해서 수정 버전)</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+        class Counter extends React.Component { //클래스 만듬(Counter컴포넌트 생성)
+
+            /*생성자 함수 없이 클래스의 속성으로 state를 추가하는 것도 가능하다! 
+            이때는 this. 은 사용이 불가능하다. 
+            this. 은 인스턴스 생성 후 레퍼런스를 보관할 변수기 때문에
+            생성자 혹은 함수 내에서만 사용이 가능하다.*/
+            state = {
+                number: 0
+            }; //초기화 방법을 바꿔본것임.
+
+            render() {
+
+                const { number } = this.state;
+
+                /* prevState를 활용한 setState 함수 사용
+                this.setState를 사용 시 상태가 변경 되고 리 랜더링이 되어야 state 값 변경이 적용된다. 
+                따라서 하나의 이벤트 핸들러에서 여러 번 setState를 호출한다고 누적 갱신 되지 않는다. (47줄 ~ 51 줄) 
+                이 때 state 객체 대신 함수를 인자로 전달하여 첫 번째 인자 prevState, 두 번째 인자 props를 활용할 수 있다. 
+                만약 props가 필요하지 않은 상황이면 생략 가능하다.
+                */
+
+                return (
+                    <>
+                        <h1 style={number < 0 ? { color: 'red' } : { color: 'blue' }}>
+                            Count : {number} {/* Count : {0} */}
+                        </h1>
+                        <button onClick={() => this.setState({ number: number - 1 })}>
+                            -1
+                        </button>
+                        <button onClick={ () => {
+                            // console.log(`number : ${this.state.number}`);
+                            // this.setState({number : number + 1});
+                            // console.log(`number : ${this.state.number}`); //초기에 쓴 1로 셋팅하라는 얘기를 두번 쓴거 밖에 안됨(누적이 아님)
+                            // this.setState({number : number + 1});
+                            // console.log(`number : ${this.state.number}`); //한번 클릭시 2씩 증가할줄 알았는데 1씩 증가함 왜냐? (위에)
+
+                            /* setState로 상태를 변경해도 반영되지 않는다. 
+                            이유는 메모리에서만 임시로 변경 된 상태를 가지고 있고 
+                            해당 함수가 종료되면 변경 내역을 반영하기 때문이다. 
+                            이러한 상황을 해결하기 위해서는 prevState를 이용한다.*/
+                            /* 이 코드 이해 해야함 ㅠㅠ */
+                            this.setState((prevState, props) => {  
+                                return{ //수행하는 구문
+                                    number : prevState.number + 1
+                                }
+                            });
+
+                            /*{number : prevState.number + 1} 람다식에 이터럴 객체를 반환한다고 쓰고 싶으면 중괄호로 감싸줘야 함.*/
+                            this.setState(prevState => ({number : prevState.number + 1})); // 위 코드를 이렇게 짧게 쓸수도 있음
+                        }}> 
+                            +1
+                        </button>
+                    </>
+                );
+            }
+        }
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <Counter />//props를 생성하면서 Counter컴포넌트 전달
+        );
+    </script>
+
+</body>
+
+</html>

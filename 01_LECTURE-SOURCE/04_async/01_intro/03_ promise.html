@@ -1,0 +1,75 @@
+<body>
+    <script>
+        /* Promise는 콜백 지옥 같은 코드가 형성 되지 않게 하는 방안으로 ES6에서 도입되었다. */
+
+        function increase(number) {
+            /* resolve는 성공, reject는 실패를 의미한다. */
+            const promise = new Promise((resolve, reject) => {
+                setTimeout(
+                    () => {
+                        const result = number + 10;
+
+                        if(result > 50) {
+                            const e = new Error('NumberTooBig');
+                            /* 실패 시 결과 값을 reject로 전달 */
+                            return reject(e);
+                        }
+
+                        /* 성공 시 결과 값을 resolve의 인자로 전달 */
+                        resolve(result);
+                    },
+                    1000
+                );
+            });
+
+            return promise;
+        }
+
+        console.log(increase(0));
+
+        /* promise에서 resolve 함수로 전달한 값을 then 메소드에 전달하는 콜백함수의 매개변수를 이용해서 받아올수 있음. */
+        /* 비동기 작업을 순서에 맞춰 수행하기 위해서 이전처럼 콜백지옥이 생기는 것이 아니라
+        promise 객체를 반환 받고 then 메소드를 통해 이후 작업을 설정하기 때문에 코드 가독성이 개선된다. */
+        increase(0)
+        .then(number => {
+            console.log(number)
+
+            return increase(number); // 처리 후 다시 promise를 리턴한다
+        })
+        .then(number => {
+            console.log(number);
+
+            return increase(number);
+        })
+        .then(number => {
+            console.log(number);
+
+            return increase(number);
+        })
+        .then(number => {
+            console.log(number);
+
+            return increase(number);
+        })
+        .then(number => {
+            console.log(number);
+
+            return increase(number);
+        })
+        .then(number => {
+            console.log(number);
+
+            return increase(number);
+        })
+        .then(number => {
+            console.log(number);
+
+            return increase(number);
+        })
+        .catch(e => {
+            //에러가 발생하는 것은 catch에서 잡는다.
+            console.log(e);
+        })
+        
+    </script>
+</body>

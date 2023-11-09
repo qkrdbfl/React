@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* useEffect는 기본적으로 랜더링 직후, 업데이트 직후 호출 된다. 
+        그리고 컴포넌트가 마운트 해제 되기 직전, 업데이트 되기 직전에 실행할 내용이 있다면
+        정리 (clean-up)을 하는 기능도 수행할수 있다. (componentWillUnmount의 역할과 동일함.) */
+
+        const { useState, useEffect } = React;
+
+        function Counter() {
+
+            const [count, setCount] = useState(0);
+
+            useEffect(() => {
+                console.log('useEffect 동작...'); //업데이트 마다 수행하는지 확인
+
+                /* 반환하는 함수가 정리 함수로 기능한다. */
+                return () => {
+                    console.log('clean-up...'); //이건 Counter 컴포넌트가 사라질때 수행됨
+                }
+            })
+
+            return (
+                <>
+                    <h1>count : {count}</h1>
+                    <button onClick={() => setCount(count + 1)}>+ 1</button>
+                </>
+            );
+        }
+
+
+        ReactDOM.createRoot(document.getElementById('root')).render(<Counter />);
+    </script>
+
+</body>
+
+</html>

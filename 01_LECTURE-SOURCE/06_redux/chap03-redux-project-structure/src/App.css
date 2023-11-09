@@ -1,0 +1,39 @@
+body {
+    text-align: center;
+}
+
+ul {
+    list-style-type: none;
+    display : flex;
+    width : 280px;
+    margin : auto;
+}
+
+li {
+    padding : 10px;
+}
+
+a {
+    text-decoration: none;
+}
+
+.menuBox div {
+    display: inline-block;
+    margin: 5px;
+}
+
+.menuItem {
+    width: 300px;
+    color: black;
+    /*background-color: lightgrey;*/
+    background-color: #ab913f;
+    cursor: pointer;
+    /*color: white;*/
+    padding : 5px;
+}
+
+.menuItem:hover {
+    /*-webkit-text-stroke: 1px black;*/
+    color: white;
+    background-color: #3a2727;
+}

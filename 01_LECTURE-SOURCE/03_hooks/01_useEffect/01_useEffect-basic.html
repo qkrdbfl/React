@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+
+    <div id="root"></div>
+
+    <script type="text/babel">
+        /* Hooks는 리액트 16.8에서 새로 도입 된 기능으로,
+        함수 컴포넌트에서 사용 불가능한 생명주기 메소드 등의 한계점으로 인해
+        상태 관리 및 렌더링 이후 시점 컨트롤 등 다양한 문제를 해결하기 위해 만든 함수 집합을 의미함. 
+        
+        클래스형 컴포넌트에서는 컴포넌트 랜더링 후 특정 작업 수행 시
+        componentDidMount, componentDidUpdate 메소드를 사용하면 된다. 
+        함수형 컴포넌트에서는 생명주기 api 사용이 불가능 하므로 제공 되는 hook인 useEffect를 사용함. */
+
+        const { useEffect } = React;
+
+        function MessgePrinter({ message }) {
+
+            console.log('랜더링...');
+
+            /* render 이후에 실행하고 싶은 동작을 useEffect를 통해 처리할 수 있다.*/
+            useEffect(() => {
+                console.log('렌더링 이후 동작...');
+                console.log(message);
+            });
+
+            return (
+                <h1>{console.log('랜더링 시 출력')}{message}</h1>
+            );
+
+        }
+
+        const message = "안녕하세요";
+
+        ReactDOM.createRoot(document.getElementById('root')).render(
+            <MessgePrinter message={message} />
+        );
+    </script>
+
+</body>
+
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>02_</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script crossorigin src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+</head>
+
+<body>
+    <!--
+        리액트 엘리먼트는 불변객체(immutable)이다.
+        엘리먼트를 생성한 이후에는 해당 엘리먼트의 자식이나 속성을 변경할수 없다.
+        따라서 엘리먼트를 업데이트 하기 위해서는 완전히 새로운 엘리먼트를 만들고
+        다시 render를 호출해야함.
+    -->
+    <div id="root"></div>
+
+    <script type="text/babel">
+
+       const ReactClientDOM = ReactDOM.createRoot(document.getElementById('root'));
+
+        function tick() {
+
+            const element = (
+                <>
+                    <h1>What time is it now?</h1>
+                    <h3>It is {new Date().toLocaleTimeString()}</h3>
+                </>
+            );
+
+            ReactClientDOM.render(element);
+        }
+
+        tick();
+        setInterval(tick, 1000);
+
+        /*1초마다 tick 함수를 호출하여 새로운 엘리먼트를 생성하고 렌더링 한다
+        매 초 마다 새로운 엘리먼트가 다시 랜더링 되지만 실제 업데이트 되는 부분만 갱신 된다.
+        리액트 엘리먼트는 메모리 상에서 연산되는 가상의 돔이다. 
+        가상돔은 실제돔과 동일한 렌더 트리를 가지고 있고 render ㅎ출 시 새로운 렌더 트리를 만들어 비교한다.(dift 알고리즘)
+        비교 결과 변화가 있는 부분만 실제 돔에 반영한다.*/
+
+    </script>
+
+</body>
+
+</html>
